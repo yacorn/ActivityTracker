@@ -1,38 +1,41 @@
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.action.setBadgeText({
-    text: 'OFF'
-  });
+chrome.tabs.onActivated.addListener(async function(activeInfo) {
+  const currentTab = await getCurrentTab();
+  if (currentTab.name != 'newtab') {
+    chrome.storage.local.set({ currentTabData: currentTab }, function() {
+      console.log('Current Tab Changed: ' + currentTab.name + ' Time: ' + currentTab.time);
+    });
+  }
 });
 
-const extensions = 'https://developer.chrome.com/docs/extensions';
-const webstore = 'https://developer.chrome.com/docs/webstore';
-
-// When the user clicks on the extension action
-chrome.action.onClicked.addListener(async (tab) => {
-  if (tab.url.startsWith(extensions) || tab.url.startsWith(webstore)) {
-    // We retrieve the action badge to check if the extension is 'ON' or 'OFF'
-    const prevState = await chrome.action.getBadgeText({ tabId: tab.id });
-    // Next state will always be the opposite
-    const nextState = prevState === 'ON' ? 'OFF' : 'ON';
-
-    // Set the action badge to the next state
-    await chrome.action.setBadgeText({
-      tabId: tab.id,
-      text: nextState
-    });
-
-    if (nextState === 'ON') {
-      // Insert the CSS file when the user turns the extension on
-      await chrome.scripting.insertCSS({
-        files: ['focus-mode.css'],
-        target: { tabId: tab.id }
-      });
-    } else if (nextState === 'OFF') {
-      // Remove the CSS file when the user turns the extension off
-      await chrome.scripting.removeCSS({
-        files: ['focus-mode.css'],
-        target: { tabId: tab.id }
+chrome.tabs.onUpdated.addListener(async function(tabId, changeInfo, tab) {
+  // Check if the URL of the updated tab has changed
+  if (changeInfo.url) {
+    const updatedTab = await getCurrentTab();
+    if (updatedTab.name != 'newtab') {
+      chrome.storage.local.set({ currentTabData: updatedTab }, function() {
+        console.log('Current Tab Changed: ' + updatedTab.name + ' Time: ' + updatedTab.time);
       });
     }
   }
 });
+
+async function getCurrentTab() {
+  let queryOptions = { active: true, lastFocusedWindow: true };
+  let [tab] = await chrome.tabs.query(queryOptions);
+  
+  // Get the current time
+  const currentTime = new Date().toISOString();
+
+
+  let parsedUrl = new URL(tab.url);
+  let hostname = parsedUrl.hostname;
+  let nameDomain = hostname.replace(/^www\./, '');
+
+  // Return an object containing tab's name and time
+  return {
+    name: nameDomain,
+    url: tab.url,
+    time: currentTime
+  };
+}
+
