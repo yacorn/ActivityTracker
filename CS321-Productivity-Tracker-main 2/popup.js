@@ -1,12 +1,12 @@
-'use strict';
-
-function start() {
-    chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
-        let url = tabs[0].url;
-        // use `url` here inside the callback because it's asynchronous!
-    });
-    window.alert(url)
-}
-
-
-document.getElementById("GetUrl").addEventListener("click", start)
+document.getElementById('StartSession').addEventListener('click', function() {
+    // Send a message to the content script to start the session
+});
+  
+document.getElementById('EndSession').addEventListener('click', function() {
+    // Send a message to the content script to end the session
+});
+  
+document.getElementById('tabInfo').addEventListener('click', function() {
+    // Send a message to the content script to get the URL
+    chrome.tabs.create({ url: 'tabInfo.html' });
+});
