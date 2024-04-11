@@ -25,7 +25,7 @@
   "options_ui": {
     "page": "options.html"
   },
-  "permissions": ["history", "storage", "activeTab", "scripting"],
+  "permissions": ["history", "storage", "activeTab", "scripting", "tabs"],
   "commands": {
     "_execute_action": {
       "suggested_key": {
