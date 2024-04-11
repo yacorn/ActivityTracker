@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tab Information</title>
+  <style>
+    /* Add your CSS styles here */
+  </style>
+</head>
+<body>
+  <h1>Tab Information</h1>
+  <div id="tabData"></div>
+
+  <script>
+    // Retrieve tab data from Chrome storage and display it
+    chrome.storage.local.get('currentTabData', function(data) {
+      var tabData = data.currentTabData;
+      var tabDataElement = document.getElementById('tabData');
+      
+      if (tabData) {
+        tabDataElement.textContent = JSON.stringify(tabData, null, 2);
+      } else {
+        tabDataElement.textContent = 'No tab data available';
+      }
+    });
+  </script>
+</body>
+</html>
