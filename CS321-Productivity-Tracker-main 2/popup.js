@@ -4,6 +4,7 @@
 let start = document.querySelector('StartSession');
 let stop = document.querySelector('EndSession');
 let timerID;
+let timer = document.getElementById('timerID');
 
 start.addEventListener('click', function() {
     // Send a message to the content script to start the session
