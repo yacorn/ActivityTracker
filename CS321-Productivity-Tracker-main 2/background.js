@@ -1,6 +1,13 @@
+blocked = ['facebook.com', 'youtube.com', "twitter.com"];
+
 chrome.tabs.onActivated.addListener(async function(activeInfo) {
   const currentTab = await getCurrentTab();
   if (currentTab.name != 'newtab') {
+    if (blocked.includes(currentTab.name)) { //Blocker
+      chrome.tabs.update({ url: 'blocked.html' });
+      console.log("[blocked] Contains: " + currentTab.name);
+    }
+
     chrome.storage.local.get("currentTabData", function(result) {
       const previousTabData = result.currentTabData; // Retrieve the current data
       if (previousTabData) {
@@ -16,15 +23,22 @@ chrome.tabs.onActivated.addListener(async function(activeInfo) {
   }
 });
 
+
+
+
 chrome.tabs.onUpdated.addListener(async function(tabId, changeInfo, tab) {
   // Check if the URL of the updated tab has changed
   if (changeInfo.url) {
     const updatedTab = await getCurrentTab();
     if (updatedTab.name != 'newtab') {
+      if (blocked.includes(updatedTab.name)) { //Blocker
+        chrome.tabs.update({ url: 'blocked.html' });
+        console.log("[blocked] Contains: " + updatedTab.name);
+      }
+      
       chrome.storage.local.get("currentTabData", function(result) {
         const previousTabData = result.currentTabData; // Retrieve the current data
         if (previousTabData) {
-          // Store the previous data in "previousTabData"
           chrome.storage.local.set({ previousTabData: previousTabData }, function() {
             console.log('Previous Tab Data Saved:', previousTabData);
           });
@@ -38,11 +52,8 @@ chrome.tabs.onUpdated.addListener(async function(tabId, changeInfo, tab) {
   }
 });
 
-chrome.storage.onChanged.addListener((changes, namespace) => {
-  if (changes.hasOwnProperty("previousTabData")) {
 
-  }
-});
+
 
 async function storeData(site, timeSpent) {
   let weblistResult = await chrome.storage.local.get("websiteList");
