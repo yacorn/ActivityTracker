@@ -4,6 +4,7 @@
     <style>
       body {
         text-align: center;
+        margin: 5px solid red;
       }
 
       #PTImage{
@@ -12,20 +13,99 @@
       }
 
       button {
-        margin: 5px;
-        outline: none;
-      }
+        background-color: #2ed2d2;
+        border-radius: 100px;
+        border-spacing: 30px;
+        box-shadow: 
+          rgba(44, 154, 187, 0.2) 0 -25px 18px -14px inset,
+          rgba(44, 154, 187, .15) 0 1px 2px,
+          rgba(44, 154, 187, .15) 0 2px 4px,
+          rgba(44, 154, 187, .15) 0 4px 8px,
+          rgba(44, 154, 187, .15) 0 8px 16px,
+          rgba(44, 154, 187, .15) 0 16px 32px;
+        color: rgb(17, 31, 48);
+        cursor: pointer;
+        display: inline-block;
+        font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+        padding: 10px 20px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        text-align: center;
+        text-decoration: none;
+        transition: all 250ms;
+        border: 0;
+        font-size: 11px;
+        touch-action: manipulation;
+        }
       button:hover {
-        outline: #80deea dotted thick;
+        outline: #586566 outset thick;
       }
+
+      .button2 {
+        background-color: #d22e2e;
+        border-radius: 100px;
+        border-spacing: 30px;
+        box-shadow: 
+          rgba(187, 44, 44, 0.2) 0 -25px 18px -14px inset,
+          rgba(187, 44, 44, 0.15) 0 1px 2px,
+          rgba(187, 44, 44, 0.15) 0 2px 4px,
+          rgba(187, 44, 44, 0.15) 0 4px 8px,
+          rgba(187, 44, 44, 0.15) 0 8px 16px,
+          rgba(187, 44, 44, 0.15) 0 16px 32px;
+        color: rgb(48, 17, 17);
+        cursor: pointer;
+        display: inline-block;
+        font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+        padding: 5px 10px;
+        margin-top: 15px;
+        text-align: center;
+        text-decoration: none;
+        transition: all 250ms;
+        border: 0;
+        font-size: 8px;
+        touch-action: manipulation;
+        }
+
+      .button2:hover {
+        outline: #586566 outset thick;
+      }
+
+      input {
+        display: block;
+        transition: transform .7s ease-in-out;
+        border-radius: 50%;
+        margin: 10px auto; 
+        border: 5px solid rgb(149, 255, 0);
+        animation: border-pulsate 2s infinite;
+      }
+
+      :root {
+        --change: rgb(255, 0, 0);
+        --state: 0;
+      } 
+      
+      @keyframes border-pulsate {
+        0%   { border-color: var(--change); }
+        50% { border-color: rgba(0, 255, 255, 0); }
+        100%   { border-color: var(--change); }
+      }
+
+      input:hover {
+        outline: 3px var(--change) solid;
+        transform: rotate(360deg);
+        transition: transform .7s ease-in-out;
+      }
+
+      
     </style>
   </head>
  <body>
-     <img src="images/icon128.png" id="PTImage">
-     <button id="StartSession">Start Session</button>
-     <button id="EndSession">End Session</button>
-     <button id="tabInfo">Tab Info!</button>
-     <timer id="timerInterval">timerID</timer>
-    <script src="popup.js"></script>
+  <input type="image" id="toggleSes" src="images/icon128.png"/>
+  <div id='timer'></div>
+  <button id="StartSession">Start Session</button>
+  <button id="EndSession">End Session</button>
+  <button id="tabInfo">Tab Info!</button>
+  <button class = "button2" id="dataClear">Clear Data</button.button2>
+  <script src="popup.js"></script>
  </body>
 </html>
